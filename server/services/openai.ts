@@ -1,8 +1,17 @@
 import OpenAI from "openai";
 
+// Check for OpenAI API key in environment variables
+const getOpenAIKey = () => {
+  const key = process.env.OPENAI_API_KEY || process.env.OPENAI_KEY;
+  if (!key || key === "default_key") {
+    throw new Error("OpenAI API key not found. Please set OPENAI_API_KEY or OPENAI_KEY environment variable.");
+  }
+  return key;
+};
+
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
 const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY || process.env.OPENAI_KEY || "default_key"
+  apiKey: getOpenAIKey()
 });
 
 interface TaxContext {
